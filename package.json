@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dayjs": "^1.11.10"
+    "dayjs": "^1.11.10",
+    "inquirer": "^8.2.6"
   }
 }
