@@ -1,62 +1,63 @@
 const inquirer = require('inquirer')
+const fs =require('fs')
 
-function takeOut(foodChoices) {
-  inquirer.prompt([
-    {
-      name: 'name',
-      message: 'Type your name'
-    },
-    {
-      name: 'address',
-      message: 'Type your address',
-    },
-    {
-      name: 'Phone number',
-      message: 'Type your number'
+function generateHTML(answerObj) {
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body style='background-color: ${answerObj.color};'>
+  <h1>${answerObj.name}</h1>
+  <p>Favorite Color: ${answerObj.color}</p>
+  <p>Address: ${answerObj.address}</p>
+</body>
+</html>
+`
+
+  fs.writeFile('./index.html', html, () => {
+    if(err) {
+      return console.log(err)
     }
-  ])
-  
+
+    console.log('HTML file has been generated successfully!')
+  })
+
 }
-
+function getAnswers() {
 inquirer.prompt([
+ 
   {
-    type: 'input',
     name: 'color',
-    message: 'Please type your favorite color'
+    message: 'What is your favorite color?',
   },
   {
-    type: 'confirm',
-    name: 'likesNode',
-    message: 'Do you like Node JS?'
-
+    name: 'name',
+    message: 'Please type your name',
+    
   },
   {
-    type: 'list',
-    name: 'answer',
-    message: 'What do we use to import a package into a JS file in Node?',
-    choices: ['return', 'require', 'function']
-  },
-  {
-    type: 'checkbox',
-    name: 'food',
-    message: 'What is your favorite food genre?',
-    choices: ['Korean', 'Turkish', 'Thai', 'Southern', 'Chinese', 'Mexican']
-  },
-  {
-    type: 'list',
-    name: 'menuChoice',
-    message: 'Please choose a menu option',
-    choices: ['Take out', 'Delivery', 'Exit']
-
+    name: 'address',
+    message: 'Please type your address.'
   }
+
 ])
+
+
   .then((answerObj) => {
-    console.log(answerObj)
+    generateHTML(answerObj)
 
   })
   .catch((err) => {
     console.log(err)
   })
+}
+getAnswers() 
+
+
  
 
 
