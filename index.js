@@ -1,41 +1,118 @@
 
+class Phone {
+  screen = true
+
+
+  constructor(number, size , model, color) {
+    this.number = number
+    this.size = size
+    this.model = model
+    this.color = color
+  }
+
+  printModel() {
+    console.log('Model:', 'Base')
+  }
+}
+
+class iPhone extends Phone {
+  facetime = true
+
+  constructor(number, size , model, color, appleID) {
+    super(number, size , model, color)
+    
+    this.appleID = appleID
+  }
+  printModel() {
+    console.log('iPhone', this.model)
+  }
+}
+
+class Samsung extends Phone {
+  foldable = true
+
+
+  constructor(number, size , model, color, repairID) {
+    super(number, size , model, color)
+    
+    this.repairID = repairID
+  }
+ 
+}
+
+const jdPhone = new iPhone('777-777-7777', 'standard', '15', 'slate gray', 'dslkfjsdkfj;sdlafkjds' )
+const bobPhone = new iPhone('777-777-7777', 'standard', '15', 'gray', 'hsdjkhhjlsjkdhfkhlskd' )
+
+const sarahPhone = new Samsung('777-777-7777', 'mini', '23', 'blue', 'jhlksdjlsdljkdhfkhlskd' )
+
+// console.log(jdPhone)
+// console.log(sarahPhone)
+
+jdPhone.printModel()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // function Person() {
 
 // }
 
 
 
-class Person {
-  constructor(name, age, hobbies) {
-    this.name = name
-    this.age = age
-    this.hobbies = hobbies
-  }
+// class Person {
+//   // static species = 'homosapien'
+//   // species = 'homosapien'
 
-  haveBirthday() {
-    this.age++
-    console.log('Happy Birthday', this.name)
-  }
 
-  printBirthday() {
-    console.log(`${this.name} is ${this.age} years old.`)
-  }
-  // Create a method that loops over the hobbies prop array prints out each hobby one by one to the terminal
-  printHobbies() {
-    console.log('\nHobbies\n--------')
+//   constructor(name, age, hobbies) {
+//     this.name = name
+//     this.age = age
+//     this.hobbies = hobbies
+//   }
 
-    this.hobbies.array.forEach(hobby => {
-      console.log(hobby)
-    })
-  }
+//   haveBirthday() {
+//     this.age++
+//     console.log('Happy Birthday', this.name)
+//   }
 
-}
+//   printBirthday() {
+//     console.log(`${this.name} is ${this.age} years old.`)
+//   }
+//   // Create a method that loops over the hobbies prop array prints out each hobby one by one to the terminal
+//   printHobbies() {
+//     console.log('\nHobbies\n--------')
 
-const jd = new Person('JD', 44, ['fishing', 'pickleball'])
+//     this.hobbies.forEach(hobby => {
+//       console.log(hobby)
+//     })
+//   }
 
-console.log(jd)
+// }
 
-jd.haveBirthday()
+// const jd = new Person('JD', 44, ['fishing', 'pickleball'])
+
+// console.log(jd.species)
+// console.log(jd)
+
+// // jd.haveBirthday()
 
 // jd.printHobbies()
 
