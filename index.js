@@ -1,61 +1,62 @@
+const axios = require('axios')
+const inquirer = require('inquirer')
 
+const baseURL = 'https://swapi.dev/api'
 
-const data = {
-    name: 'JD',
-    age: 44
+function outputSearchResults(data) {
+    console.log('.\nResults:\n-------')
+    
+    data.results.forEach(result => {
+        console.log('Name:', result.name)
+    })
 }
 
-function handlesSomeTask(isCool) {
-    return new Promise((resolve, reject) => {
-        if (isCool) {
-            setTimeout(() => {
-            resolve()
-            }, 5000);
-        } else {
-            reject()
-        }
+async function makeRequest(data) {
+    const url = `${baseURL}/${data.dataset.toLowerCase()}?search=${data.search}`
+
+    const res = await axios.get(url)
+
+    return res.data
+}
+
+async function getSearch(datasetObject) {
+    const searchObject = await inquirer.prompt({
+        name: 'search',
+        message: 'Please type a search word for your chosen dataset'
+    })
+
+    return {
+        dataset: datasetObject.dataset,
+        search: searchObject.search
         
-     })
     }
+}
 
-handlesSomeTask(true)
-    .then(() => {
-        console.log('all good')
-    })
-    .then(() => {
-        console.log('two')
-    })
-    .then(() => {
-        console.log('three')
-    })
-    .catch(() => {
-        console.log('all bad')
+async function getDatset() {
+    // Get the dataset choice
+    const answerObj = await inquirer.prompt({
+        name: 'dataset',
+        type: 'list',
+        message: 'Please select a dataset form the list',
+        choices: ['Films', 'People', 'Planets', 'Species', 'Starships', 'Vehicles']
     })
 
+    return answerObj
+
+}
+
+getDatset()
+    .then(getSearch)
+    .then(makeRequest)
+    .then(outputSearchResults)
 
 
+// axios.get(baseURL + '/planets')
+//     .then((res) => {
+//         console.log(res.data)
+//     })
 
 
-// class Prom {
-//     then(cb) {
-//     // Wait until some code runs and completes before calling the callback
-//         setTimeout(() => {
-//             cb()
-//         }, 3000)
-//     }
-
-//     catch(cb) {
-
-//     }
-// }
-
-// const prom = new Prom((resolve, reject) => {
-
-// })
-
-// prom.then(() => {
-//     console.log('callback called')
-// })
 
 
 
