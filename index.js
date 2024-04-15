@@ -1,61 +1,76 @@
-const axios = require('axios')
-const inquirer = require('inquirer')
+const express = require('express')
 
-const baseURL = 'https://swapi.dev/api'
+const app = express()
+const PORT = 3333
 
-function outputSearchResults(data) {
-    console.log('.\nResults:\n-------')
-    
-    data.results.forEach(result => {
-        console.log('Name:', result.name)
-    })
-}
-
-async function makeRequest(data) {
-    const url = `${baseURL}/${data.dataset.toLowerCase()}?search=${data.search}`
-
-    const res = await axios.get(url)
-
-    return res.data
-}
-
-async function getSearch(datasetObject) {
-    const searchObject = await inquirer.prompt({
-        name: 'search',
-        message: 'Please type a search word for your chosen dataset'
-    })
-
-    return {
-        dataset: datasetObject.dataset,
-        search: searchObject.search
-        
+const data = [
+    {
+        id: 1,
+        name: 'JD',
+        age: 44
+    },
+    {
+        id: 2,
+        name: 'Bob',
+        age: 99
+    },
+    {
+        id: 3,
+        name: 'Sarah',
+        age: 40
     }
-}
+]
 
-async function getDatset() {
-    // Get the dataset choice
-    const answerObj = await inquirer.prompt({
-        name: 'dataset',
-        type: 'list',
-        message: 'Please select a dataset form the list',
-        choices: ['Films', 'People', 'Planets', 'Species', 'Starships', 'Vehicles']
+// Create a GET route that listens for the user to visit the root address/domain
+app.get('/', (requestObj, resposnseObj) => {
+    resposnseObj.send('Hey from the server!')
+})
+
+app.get('/api/:user_id', (requestObj, resposnseObj) => {
+    const id = requestObj.params.user_id
+    
+    // Pull  the user's object from the data array to by the id property
+    const user = data.find((userObj) => {
+        if (userObj.id == id) return true
     })
+    if (user) {
+        return resposnseObj.json(user)
+    }
+    return resposnseObj.json({
+        message: 'User not found matching that.id'
+    })
+})
 
-    return answerObj
+app.get('/about', (requestObj, resposnseObj) => {
+    resposnseObj.send('<h1>About Header</h1>')
+})
 
-}
+app.get('/data', (requestObj, resposnseObj) => {
+    const queryParams = requestObj.query
 
-getDatset()
-    .then(getSearch)
-    .then(makeRequest)
-    .then(outputSearchResults)
+    // Create an empty object
 
+    const obj = {}
 
-// axios.get(baseURL + '/planets')
-//     .then((res) => {
-//         console.log(res.data)
-//     })
+    // If they request the name (name: 'true') then we add the property name to the object
+    if (queryParams.name === 'true') {
+        obj.name = 'JD'
+    }
 
+    // If they request the age(age: 'true') then we add the property age to the object
+    if (queryParams.age === 'true') {
+        obj.age = 44
+    }
+
+    // Send the completed object back in the response 
+    resposnseObj.json(obj) 
+
+})
+
+// Start the server - Tell the server to start listening for routes to be visited
+app.listen(PORT, () => {
+    console.log('Server running on port', PORT)
+})
 
 
 
