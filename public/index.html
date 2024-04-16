@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User API Documentation</title>
     <!-- All link tag send a GET request -->
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
     <h1 class="text-center">User API</h1>
-    <p class="text-center">Welcome! Feel free to use our API and have fun</p>
+    <p class="text-center">Welcome! Feel free to use our API and have fun!</p>
 
-    <hr>
-
+    <hr />
 
     <h2>Routes:</h2>
 
-    <hr>
-
     <div class="route-containter">
-        <p class="route"><span>GET /api/users</span> - Returns all users</p>
-        <p class="route"><span>GET /api/users/:ID</span> - Returns a single user by ID</p>
-
+      <p class="route"><span>GET /api/users</span> - Returns all users</p>
+      <p class="route">
+        <span>GET /api/users/:ID</span> - Returns a single user by ID
+      </p>
     </div>
-</body>
+
+    <form action="/api/users/form" method="POST">
+      <input name="fullName" type="text" placeholder="Type your name" />
+      <button>Submit</button>
+    </form>
+    <button id="send">send</button>
+
+    <script>
+      fetch("/api/users")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+
+      const btn = document.querySelector("#send");
+
+      btn.addEventListener("click", () => {
+        fetch("/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: "Bob",
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            alert(data.message);
+          });
+      });
+    </script>
+  </body>
 </html>
