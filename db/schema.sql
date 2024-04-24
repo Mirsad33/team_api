@@ -1,27 +1,15 @@
-
 \c postgres;
-DROP DATABASE IF EXISTS student_course_db;
-CREATE DATABASE student_course_db;
 
-\c student_course_db;
+DROP DATABASE IF EXISTS sequelize_practice_db;
+CREATE DATABASE sequelize_practice_db;
 
-CREATE TABLE courses (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(250) NOT NULL,
-    type VARCHAR(200) NOT NULL
-);
-    
+-- CREATE TABLE notes (
+--     id SERIAL PRIMARY KEY,
+--     text VARCHAR(255) NOT NULL,
+--     createdAt TIMESTAMP DEFAULT NOW(),
+--     updatedAt TIMESTAMP DEFAULT NOW(),
+-- );
 
-
-CREATE TABLE students (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(250) NOT NULL,
-    last_name VARCHAR(250) NOT NULL,
-    email VARCHAR(250) NOT NULL,
-    password VARCHAR (250) NOT NULL,
-    course_id INT,
-    FOREIGN KEY (course_id) REFERENCES courses(id)
-);
 
 
 
