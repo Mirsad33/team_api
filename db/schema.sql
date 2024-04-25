@@ -1,7 +1,7 @@
 \c postgres;
 
-DROP DATABASE IF EXISTS sequelize_practice_db;
-CREATE DATABASE sequelize_practice_db;
+DROP DATABASE IF EXISTS teams_db;
+CREATE DATABASE teams_db;
 
 -- CREATE TABLE notes (
 --     id SERIAL PRIMARY KEY,
