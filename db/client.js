@@ -1,13 +1,17 @@
 const { Sequelize } = require('sequelize')
+const is_prod = proce.env.NODE_ENV//'production'
 
-const client = new Sequelize(
-    'teams_db', 
-    'postgres', 
-    'Struga3387', 
+
+
+const client = is_prod ? new Sequelize(process.env.DATABASE_URL) :
+  new Sequelize(
+    process.env.DB_NAME, 
+    process.env.DB_USERNAME,
+    process.env.DB_PASSWORD,  
     {
     host: 'localhost',
     dialect: 'postgres',
-    // logging: false
+    logging: false
   });
 
   module.exports = client

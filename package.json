@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev" : "nodeman server.js"
+    "dev": "nodeman server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "nodeman": "^1.1.2",
     "pg": "^8.11.5",

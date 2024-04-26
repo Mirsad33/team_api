@@ -8,7 +8,7 @@ const { Team, Player } = require('../models')
 // Helper function to handle errors
 const handleError = (res, err) => {
     console.log('Error', err)
-    res.status(500).json({ error: 'Internal Server Error' })
+    res.json({ error: 'Internal Server Error' })
 }
 
 // Middleware to handle include options
@@ -49,7 +49,7 @@ router.get('/team/:teamId', async (req, res) => {
     try {
         const team = await Team.findByPk(teamId, { include: Player });
         if (!team) {
-            return res.status(404).json({ error: 'Team not found' });
+            return res.json({ error: 'Team not found' });
         }
         res.json(team);
     } catch (error) {
@@ -64,7 +64,7 @@ router.get('/players/:playerId', async (req, res) => {
     try {
         const player = await Player.findByPk(playerId, { include: Team });
         if (!player) {
-            return res.status(404).json({ error: 'Player not found' });
+            return res.json({ error: 'Player not found' });
         }
         res.json(player);
     } catch (error) {
@@ -78,7 +78,7 @@ router.post('/team', async (req, res) => {
     const { name, type, coach } = req.body;
     try {
         const newTeam = await Team.create({ name, type, coach });
-        res.status(201).json(newTeam);
+        res.json(newTeam);
     } catch (error) {
         handleError(res, error);
     }
@@ -89,7 +89,7 @@ router.post('/players', async (req, res) => {
     const { email, password, first_name, last_name, age } = req.body;
     try {
         const newPlayer = await Player.create({ email, password, first_name, last_name, age });
-        res.status(201).json(newPlayer);
+        res.json(newPlayer);
     } catch (error) {
         handleError(res, error);
     }
@@ -103,7 +103,7 @@ router.put('/players/:playerId', async (req, res) => {
     try {
         const player = await Player.findByPk(playerId);
         if (!player) {
-            return res.status(404).json({ error: 'Player not found' });
+            return res.json({ error: 'Player not found' });
         }
         await player.update(updatedInfo);
         res.json(player);
@@ -119,7 +119,7 @@ router.put('/team/:teamId', async (req, res) => {
     try {
         const team = await Team.findByPk(teamId);
         if (!team) {
-            return res.status(404).json({ error: 'Team not found' });
+            return res.json({ error: 'Team not found' });
         }
         await team.update(updatedInfo);
         res.json(team);
@@ -134,7 +134,7 @@ router.delete('/players/:playerId', async (req, res) => {
     try {
         const player = await Player.findByPk(playerId);
         if (!player) {
-            return res.status(404).json({ error: 'Player not found' });
+            return res.json({ error: 'Player not found' });
         }
         await player.destroy();
         res.sendStatus(204);
@@ -149,7 +149,7 @@ router.delete('/team/:teamId', async (req, res) => {
     try {
         const team = await Team.findByPk(teamId);
         if (!team) {
-            return res.status(404).json({ error: 'Team not found' });
+            return res.json({ error: 'Team not found' });
         }
         await team.destroy();
         res.sendStatus(204);
@@ -157,5 +157,28 @@ router.delete('/team/:teamId', async (req, res) => {
         handleError(res, error);
     }
 });
+
+// Create a POST route to connect a player with a team
+router.post('/team/:teamId/players/:playerId', async (req, res) => {
+    const { teamId, playerId } = req.params;
+    try {
+        const team = await Team.findByPk(teamId);
+        if (!team) {
+            return res.json({ error: 'Team not found' });
+        }
+
+        const player = await Player.findByPk(playerId);
+        if (!player) {
+            return res.json({ error: 'Player not found' });
+        }
+
+        await team.addPlayer(player);
+
+        res.json({ message: 'Player connected to team successfully' });
+    } catch (error) {
+        handleError(res, error);
+    }
+});
+
 
 module.exports = router; 
